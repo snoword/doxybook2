@@ -233,23 +233,18 @@ int main(const int argc, char* argv[]) {
                 if (!languageFilder.empty()) {
                     generator.print(doxygen, languageFilder, {});
                 }
-                Log::i("NENENENNE...");
 
                 if (shouldGenerate(FolderCategory::FILES)) {
-                    Log::i("FILES...");
                     generator.print(doxygen, INDEX_FILES_FILTER, {});
                 }
                 if (shouldGenerate(FolderCategory::PAGES)) {
-                    Log::i("PAGES...");
                     generator.print(doxygen, INDEX_PAGES_FILTER, {});
                 }
                 if (shouldGenerate(FolderCategory::EXAMPLES)) {
-                    Log::i("EXAMPLES...");
                     generator.print(doxygen, INDEX_EXAMPLES_FILTER, {});
                 }
 
                 if (shouldGenerate(FolderCategory::CLASSES)) {
-                    Log::i("CLASSES...");
                     generator.printIndex(doxygen, FolderCategory::CLASSES, INDEX_CLASS_FILTER, {});
                 }
                 if (shouldGenerate(FolderCategory::NAMESPACES)) {

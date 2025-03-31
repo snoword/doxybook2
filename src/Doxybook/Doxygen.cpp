@@ -85,7 +85,6 @@ void Doxybook2::Doxygen::load(const std::string& inputDir) {
     }
     // Then load basic information from all other nodes.*/
     for (const auto& pair : kindRefidMap) {
-        std::cout << "=========文具---" << std::endl;
         if (!isKindAllowedLanguage(pair.first) /* || isKindAllowedGroup(pair.first)*/)
             continue;
         try {
@@ -93,7 +92,6 @@ void Doxybook2::Doxygen::load(const std::string& inputDir) {
             if (found == cache.end()) {
                 index->children.push_back(Node::parse(cache, inputDir, pair.second, false));
                 auto child = index->children.back();
-                std::cout << "=========文具---" << child->getXmlPath()  << std::endl;
                 if (child->parent == nullptr) {
                     child->parent = index.get();
                 }
@@ -104,7 +102,6 @@ void Doxybook2::Doxygen::load(const std::string& inputDir) {
     }
     cleanup(index);
 
-    std::cout << "==GOURP==" << std::endl;
     // Next, load all groups
     for (const auto& pair : kindRefidMap) {
         if (!isKindAllowedGroup(pair.first))
@@ -123,7 +120,6 @@ void Doxybook2::Doxygen::load(const std::string& inputDir) {
         }
     }
     cleanup(index);
-    std::cout << "==FILES==" << std::endl;
 
     // Next, load all directories and files
     for (const auto& pair : kindRefidMap) {
@@ -166,7 +162,6 @@ void Doxybook2::Doxygen::load(const std::string& inputDir) {
     }
     cleanup(index);
 
-    std::cout << "==PAIR==" << std::endl;
   // Lastly, examples (we don't need to sort these ones)
     for (const auto& pair : kindRefidMap) {
         if (!isKindAllowedExamples(pair.first))
