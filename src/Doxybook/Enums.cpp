@@ -34,6 +34,7 @@ static const std::vector<KindStrPair> KIND_STRS = {
     {"event", Doxybook2::Kind::EVENT},
     {"define", Doxybook2::Kind::DEFINE},
     {"category", Doxybook2::Kind::CATEGORY},
+    {"protocol", Doxybook2::Kind::PROTOCOL}
 };
 
 static const std::vector<TypeStrPair> TYPE_STRS = {
@@ -52,7 +53,9 @@ static const std::vector<TypeStrPair> TYPE_STRS = {
     {"signals", Doxybook2::Type::SIGNALS},
     {"slots", Doxybook2::Type::SLOTS},
     {"events", Doxybook2::Type::EVENTS},
-    {"properties", Doxybook2::Type::PROPERTIES}
+    {"properties", Doxybook2::Type::PROPERTIES},
+    {"category", Doxybook2::Type::CATEGORY},
+    {"protocol", Doxybook2::Type::PROTOCOL}
 };
 
 static const std::vector<VirtualStrPair> VIRTUAL_STRS = {
@@ -159,6 +162,7 @@ bool Doxybook2::isKindStructured(const Kind kind) {
         case Doxybook2::Kind::STRUCT:
         case Doxybook2::Kind::UNION:
         case Doxybook2::Kind::INTERFACE:
+        case Doxybook2::Kind::PROTOCOL:
         case Doxybook2::Kind::CATEGORY: {
             return true;
         }
@@ -186,6 +190,7 @@ bool Doxybook2::isKindLanguage(const Kind kind) {
         case Doxybook2::Kind::SLOT:
         case Doxybook2::Kind::PROPERTY:
         case Doxybook2::Kind::EVENT:
+        case Doxybook2::Kind::PROTOCOL:
         case Doxybook2::Kind::CATEGORY: {
             return true;
         }

@@ -55,6 +55,8 @@ static const std::string example = "Example usage:\n"
                                    "\n";
 
 static const Generator::Filter INDEX_CLASS_FILTER = {Kind::NAMESPACE,
+    Kind::CATEGORY,
+    Kind::PROTOCOL,
     Kind::CLASS,
     Kind::INTERFACE,
     Kind::STRUCT,
@@ -69,7 +71,7 @@ static const Generator::Filter INDEX_MODULES_FILTER = {Kind::MODULE};
 static const Generator::Filter INDEX_FILES_FILTER = {Kind::DIR, Kind::FILE};
 
 static const Generator::Filter LANGUAGE_FILTER =
-    {Kind::NAMESPACE, Kind::CLASS, Kind::INTERFACE, Kind::STRUCT, Kind::UNION, Kind::MODULE};
+    {Kind::NAMESPACE, Kind::CATEGORY, Kind::PROTOCOL, Kind::CLASS, Kind::INTERFACE, Kind::STRUCT, Kind::UNION, Kind::MODULE};
 
 static const Generator::Filter INDEX_PAGES_FILTER = {Kind::PAGE};
 
@@ -171,10 +173,10 @@ int main(const int argc, char* argv[]) {
                 if (!config.imagesFolder.empty()) {
                     Utils::createDirectory(Path::join(config.outputDir, config.imagesFolder));
                 }
-            }
-
+            }            
             Log::i("Loading...");
             doxygen.load(args["input"].as<std::string>());
+
             Log::i("Finalizing...");
             doxygen.finalize(plainPrinter, markdownPrinter);
             Log::i("Rendering...");
@@ -216,9 +218,11 @@ int main(const int argc, char* argv[]) {
                 Generator::Filter languageFilder;
                 if (shouldGenerate(FolderCategory::CLASSES)) {
                     languageFilder.insert(Kind::CLASS);
+                    languageFilder.insert(Kind::CATEGORY);
                     languageFilder.insert(Kind::STRUCT);
                     languageFilder.insert(Kind::UNION);
                     languageFilder.insert(Kind::INTERFACE);
+                    languageFilder.insert(Kind::PROTOCOL);
                 }
                 if (shouldGenerate(FolderCategory::NAMESPACES)) {
                     languageFilder.insert(Kind::NAMESPACE);
@@ -229,18 +233,23 @@ int main(const int argc, char* argv[]) {
                 if (!languageFilder.empty()) {
                     generator.print(doxygen, languageFilder, {});
                 }
+                Log::i("NENENENNE...");
 
                 if (shouldGenerate(FolderCategory::FILES)) {
+                    Log::i("FILES...");
                     generator.print(doxygen, INDEX_FILES_FILTER, {});
                 }
                 if (shouldGenerate(FolderCategory::PAGES)) {
+                    Log::i("PAGES...");
                     generator.print(doxygen, INDEX_PAGES_FILTER, {});
                 }
                 if (shouldGenerate(FolderCategory::EXAMPLES)) {
+                    Log::i("EXAMPLES...");
                     generator.print(doxygen, INDEX_EXAMPLES_FILTER, {});
                 }
 
                 if (shouldGenerate(FolderCategory::CLASSES)) {
+                    Log::i("CLASSES...");
                     generator.printIndex(doxygen, FolderCategory::CLASSES, INDEX_CLASS_FILTER, {});
                 }
                 if (shouldGenerate(FolderCategory::NAMESPACES)) {

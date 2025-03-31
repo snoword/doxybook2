@@ -14,6 +14,8 @@ std::string Doxybook2::Generator::kindToTemplateName(const Kind kind) {
         case Kind::STRUCT:
             return config.templateKindStruct;
         case Kind::INTERFACE:
+        case Kind::CATEGORY:
+        case Kind::PROTOCOL:
             return config.templateKindInterface;
         case Kind::UNION:
             return config.templateKindUnion;
@@ -32,6 +34,7 @@ std::string Doxybook2::Generator::kindToTemplateName(const Kind kind) {
         case Kind::EXAMPLE:
             return config.templateKindExample;
         default: {
+            Log::i("This is a huge mistake");
             throw EXCEPTION("Unrecognised kind {} please contant the author!", int(kind));
         }
     }
@@ -121,6 +124,7 @@ void Doxybook2::Generator::summaryRecursive(std::stringstream& ss,
 }
 
 void Doxybook2::Generator::printRecursively(const Node& parent, const Filter& filter, const Filter& skip) {
+    Log::i("-----GENERATE {}", parent.getXmlPath());
     for (const auto& child : parent.getChildren()) {
         if (filter.find(child->getKind()) != filter.end()) {
             if (skip.find(child->getKind()) == skip.end() && shouldInclude(*child)) {

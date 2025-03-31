@@ -233,6 +233,7 @@ void Doxybook2::Node::parseBaseInfo(const Xml::Element& element) {
         case Kind::INTERFACE:
         case Kind::STRUCT:
         case Kind::CLASS:
+        case Kind::PROTOCOL:
         case Kind::CATEGORY: {
             type = Type::CLASSES;
             break;
@@ -299,6 +300,7 @@ void Doxybook2::Node::finalize(const Config& config,
     const TextPrinter& plainPrinter,
     const TextPrinter& markdownPrinter,
     const NodeCacheMap& cache) {
+
     // Sort children
     if (config.sort) {
 #ifdef _MSC_VER
@@ -307,7 +309,7 @@ void Doxybook2::Node::finalize(const Config& config,
         children.sort([](const NodePtr& a, const NodePtr& b) { return a->getName() > b->getName(); });
 #endif
     }
-
+    
     static const auto anchorMaker = [](const Node& node) {
         if (!node.isStructured() && node.kind != Kind::MODULE) {
             return "#" + Utils::toLower(toStr(node.kind)) + "-" + Utils::safeAnchorId(node.name);
@@ -334,6 +336,8 @@ void Doxybook2::Node::finalize(const Config& config,
             case Kind::FILE:
             case Kind::PAGE:
             case Kind::INTERFACE:
+            case Kind::CATEGORY:
+            case Kind::PROTOCOL:
             case Kind::EXAMPLE:
             case Kind::UNION: {
                 if (node.refid == config.mainPageName) {
@@ -362,7 +366,7 @@ void Doxybook2::Node::finalize(const Config& config,
         }
     };
 
-    // Fix group linking
+   // Fix group linking
     if (!group && refid.find("group__") == 0) {
         const auto it = cache.find(Utils::stripAnchor(refid));
         if (it != cache.end() && it->second->getKind() == Kind::MODULE && it->second.get() != this) {
